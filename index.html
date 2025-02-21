@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגול מספרים מכוונים</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async 
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; direction: ltr; background-color: #f4f4f4; }
+        h1 { color: #007bff; }
+        .exercise { font-size: 24px; margin: 10px; padding: 10px; background: #fff; display: inline-block; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); transition: transform 0.3s; }
+        .exercise:hover { transform: scale(1.05); }
+        input { font-size: 20px; width: 80px; text-align: center; margin-left: 10px; }
+        .correct { color: green; font-weight: bold; }
+        .incorrect { color: red; font-weight: bold; }
+        .result { font-size: 20px; margin-top: 20px; font-weight: bold; }
+        .new-try { font-size: 18px; padding: 10px; margin-top: 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; transition: background 0.3s; }
+        .new-try:hover { background: #0056b3; }
+        .history { margin-top: 20px; padding: 10px; background: white; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); }
+        footer { margin-top: 30px; font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>תרגול מספרים מכוונים</h1>
+    <div id="exercises"></div>
+    <button class="new-try" onclick="generateExercises()">ניסיון חדש</button>
+    <div id="score" class="result"></div>
+    <div id="history" class="history"></div>
+    <footer>האתר נבנה על ידי אריק בוריסי ©️</footer>
 
+    <script>
+        let historyRecords = [];
+        
+        function generateExercises() {
+            const operators = ['+', '-', '*', '/'];
+            const exercisesDiv = document.getElementById('exercises');
+            exercisesDiv.innerHTML = '';
+            window.correctAnswers = 0;
+            window.totalQuestions = 10;
+            
+            for (let i = 0; i < 10; i++) {
+                let num1 = Math.floor(Math.random() * 21) - 10;
+                let num2 = Math.floor(Math.random() * 21) - 10;
+                let op = operators[Math.floor(Math.random() * operators.length)];
+                
+                if (op === '/' && num2 === 0) num2 = 1;
+                
+                let expression = `${formatNumber(num1)} ${op} ${formatNumber(num2)}`;
+                let solution = eval(expression.replace('−', '-'));
+
+                let div = document.createElement('div');
+                div.className = 'exercise';
+                div.innerHTML = `
+                    \$begin:math:text$${expression}\\$end:math:text$ = <input type="text" oninput="checkAnswer(this, ${solution})">
+                    <span class="feedback"></span>
+                `;
+                exercisesDiv.appendChild(div);
+            }
+            MathJax.typeset();
+        }
+
+        function formatNumber(num) {
+            return num < 0 ? `(${num})` : num;
+        }
+
+        function checkAnswer(input, correctAnswer) {
+            let feedback = input.nextElementSibling;
+            if (input.value.trim() !== "") {
+                if (parseFloat(input.value) === correctAnswer) {
+                    feedback.innerHTML = '✔';
+                    feedback.className = 'correct';
+                    window.correctAnswers++;
+                } else {
+                    feedback.innerHTML = '✖';
+                    feedback.className = 'incorrect';
+                }
+                updateScore();
+            } else {
+                feedback.innerHTML = '';
+            }
+        }
+
+        function updateScore() {
+            let scoreDiv = document.getElementById('score');
+            let percentage = (window.correctAnswers / window.totalQuestions) * 100;
+            scoreDiv.innerHTML = `נכונות: ${window.correctAnswers} מתוך ${window.totalQuestions} (ציון: ${percentage.toFixed(1)}%)`;
+
+            if (window.correctAnswers === window.totalQuestions) {
+                scoreDiv.innerHTML += "<br>מצוין! כל התשובות נכונות!";
+            }
+
+            saveToHistory(window.correctAnswers, window.totalQuestions, percentage);
+        }
+
+        function saveToHistory(correct, total, percentage) {
+            let historyDiv = document.getElementById('history');
+            historyRecords.unshift(`🔹 תוצאה: ${correct}/${total} (ציון: ${percentage.toFixed(1)}%)`);
+            if (historyRecords.length > 5) historyRecords.pop();  
+            historyDiv.innerHTML = `<h3>היסטוריית תרגולים</h3>` + historyRecords.join('<br>');
+        }
+
+        window.onload = generateExercises;
+    </script>
+</body>
+</html>
