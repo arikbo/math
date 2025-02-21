@@ -7,9 +7,17 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: left; direction: ltr; }
-        .exercise { font-size: 24px; margin: 10px; padding: 10px; background: #f0f8ff; border-radius: 10px; display: inline-block; width: 90%; }
-        input { font-size: 20px; width: 80px; text-align: center; margin-right: 10px; }
+        body { font-family: Arial, sans-serif; text-align: center; direction: ltr; }
+        .exercise { 
+            font-size: 24px; 
+            margin: 10px auto; 
+            padding: 10px; 
+            background: #f0f8ff; 
+            border-radius: 10px; 
+            width: 90%; 
+            text-align: left; 
+        }
+        input { font-size: 20px; width: 80px; text-align: center; margin-left: 10px; }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
         .result { font-size: 20px; margin-top: 20px; }
@@ -51,7 +59,7 @@
                 exercisesDiv.appendChild(div);
             }
 
-            MathJax.typeset(); // מרענן את MathJax כדי להציג את הנוסחאות
+            MathJax.typeset(); // רענון MathJax
         }
 
         function checkAnswer(input, correctAnswer) {
@@ -74,10 +82,4 @@
         function updateScore() {
             let scoreDiv = document.getElementById('score');
             let percentage = (window.correctAnswers / window.totalQuestions) * 100;
-            scoreDiv.innerHTML = `נכונות: ${window.correctAnswers} מתוך ${window.totalQuestions} (ציון: ${percentage.toFixed(1)}%)`;
-        }
-        
-        window.onload = generateExercises;
-    </script>
-</body>
-</html>
+            scoreDiv.innerHTML = `נכונות: ${window.correctAnswers} מתוך ${window.totalQuestions} (ציון: ${percentage
