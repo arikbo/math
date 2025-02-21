@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h1>תרגול מספרים מכוונים</h1>
+    <h1 style="color: blue;">תרגול מספרים מכוונים</h1>
     <div id="exercises"></div>
     <button class="new-try" onclick="generateExercises()">ניסיון חדש</button>
     <div id="score" class="result"></div>
@@ -53,13 +53,14 @@
                 let div = document.createElement('div');
                 div.className = 'exercise';
                 div.innerHTML = `
-                    \$begin:math:text$${num1} ${op} ${num2}\\$end:math:text$ = <input type="text" oninput="checkAnswer(this, ${solution})">
+                    <span class="math">\$begin:math:text$${num1} ${op} ${num2}\\$end:math:text$ =</span>
+                    <input type="text" oninput="checkAnswer(this, ${solution})">
                     <span class="feedback"></span>
                 `;
                 exercisesDiv.appendChild(div);
             }
 
-            MathJax.typeset(); // רענון MathJax
+            MathJax.typesetPromise(); // רענון MathJax לאחר יצירת התרגילים
         }
 
         function checkAnswer(input, correctAnswer) {
@@ -82,4 +83,10 @@
         function updateScore() {
             let scoreDiv = document.getElementById('score');
             let percentage = (window.correctAnswers / window.totalQuestions) * 100;
-            scoreDiv.innerHTML = `נכונות: ${window.correctAnswers} מתוך ${window.totalQuestions} (ציון: ${percentage
+            scoreDiv.innerHTML = `נכונות: ${window.correctAnswers} מתוך ${window.totalQuestions} (ציון: ${percentage.toFixed(1)}%)`;
+        }
+        
+        window.onload = generateExercises;
+    </script>
+</body>
+</html>
