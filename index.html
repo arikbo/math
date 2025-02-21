@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="he" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>תרגול מספרים מכוונים</title>
-    <script id="MathJax-script" async 
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; direction: rtl; }
-        .exercise { font-size: 24px; margin: 10px; padding: 10px; background: #f0f8ff; border-radius: 10px; display: inline-block; }
-        input { font-size: 20px; width: 80px; text-align: center; }
+        .exercise { font-size: 24px; margin: 10px; padding: 10px; background: #f0f8ff; border-radius: 10px; display: inline-block; width: 90%; }
+        input { font-size: 20px; width: 80px; text-align: center; margin-right: 10px; }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
         .result { font-size: 20px; margin-top: 20px; }
-        .new-try { font-size: 18px; padding: 10px; margin-top: 20px; cursor: pointer; }
-        footer { margin-top: 30px; font-size: 16px; color: gray; }
+        .new-try { font-size: 18px; padding: 10px; margin-top: 20px; cursor: pointer; background: blue; color: white; border: none; border-radius: 5px; }
+        footer { margin-top: 20px; font-size: 14px; color: gray; }
     </style>
 </head>
 <body>
@@ -45,15 +45,15 @@
                 let div = document.createElement('div');
                 div.className = 'exercise';
                 div.innerHTML = `
-                    <span class="math-tex">\\(${num1} ${op} ${num2}\\)</span> = 
-                    <input type="text" oninput="checkAnswer(this, ${solution})">
+                    \$begin:math:text$${num1} ${op} ${num2}\\$end:math:text$ = <input type="text" oninput="checkAnswer(this, ${solution})">
                     <span class="feedback"></span>
                 `;
                 exercisesDiv.appendChild(div);
             }
-            MathJax.typeset();
+
+            MathJax.typeset(); // מרענן את MathJax כדי להציג את הנוסחאות
         }
-        
+
         function checkAnswer(input, correctAnswer) {
             let feedback = input.nextElementSibling;
             if (input.value.trim() !== "") {
