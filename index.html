@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>תרגול מספרים מכוונים</title>
-    <script id="MathJax-script" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; direction: ltr; }
-        .exercise { 
+        .exercise {
             font-size: 24px; 
             margin: 10px auto; 
             padding: 10px; 
@@ -53,14 +62,14 @@
                 let div = document.createElement('div');
                 div.className = 'exercise';
                 div.innerHTML = `
-                    <span class="math">\$begin:math:display$${num1} ${op} ${num2} =\\$end:math:display$</span>
+                    <span class="math">\$${num1} ${op} ${num2} =\$\</span>
                     <input type="text" oninput="checkAnswer(this, ${solution})">
                     <span class="feedback"></span>
                 `;
                 exercisesDiv.appendChild(div);
             }
 
-            // לוודא ש-MathJax ירנדר את הביטויים מחדש
+            // וודא ש-MathJax טוען מחדש את הביטויים
             if (window.MathJax) {
                 MathJax.typesetPromise();
             }
