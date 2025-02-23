@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: ltr;
+            text-align: center;
             background: linear-gradient(to right, #74ebd5, #acb6e5);
             padding: 20px;
         }
@@ -43,21 +43,22 @@
         let correctAnswer = "";
 
         function generateQuestion() {
-            let x1 = Math.floor(Math.random() * 10) - 5;
-            let y1 = Math.floor(Math.random() * 10) - 5;
-            let x2 = Math.floor(Math.random() * 10) - 5;
-            let y2 = Math.floor(Math.random() * 10) - 5;
+            let x1, y1, x2, y2, m, b;
+            do {
+                x1 = Math.floor(Math.random() * 10) - 5;
+                y1 = Math.floor(Math.random() * 10) - 5;
+                x2 = Math.floor(Math.random() * 10) - 5;
+                y2 = Math.floor(Math.random() * 10) - 5;
+            } while (x1 === x2 || (y2 - y1) % (x2 - x1) !== 0); // הימנעות מחלוקה באפס ומשברים
             
-            while (x1 === x2) x2 += 1;
-            
-            let m = (y2 - y1) / (x2 - x1);
-            let b = y1 - m * x1;
+            m = (y2 - y1) / (x2 - x1);
+            b = y1 - m * x1;
             
             let mStr = m === 1 ? "x" : m === -1 ? "-x" : `${m}x`;
             let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
             correctAnswer = `y=${mStr}${bStr}`;
             
-            document.getElementById("question").innerText = `מצא את הפונקציה עבור הנקודות (${x1}, ${y1}) ו-(${x2}, ${y2})`;
+            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות \(( ${x1}, ${y1} )\) ו-\(( ${x2}, ${y2} )\)`;
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
