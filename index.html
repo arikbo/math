@@ -38,8 +38,8 @@
         <p id="question"></p>
         <p>הזן את הפונקציה בפורמט <strong>y=mx+b</strong></p>
         <input type="text" id="answer">
-        <p id="feedback"></p>
         <button onclick="checkAnswer()">בדוק</button>
+        <p id="feedback"></p>
         <button onclick="generateQuestion()">תרגיל חדש</button>
     </div>
     <p class="footer">האתר נבנה על ידי אריק בוריסי ©️</p>
@@ -63,7 +63,9 @@
             correctAnswer = `y=${mStr}${bStr}`;
             
             document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות:<br>
+            <strong>נקודה 1:</strong><br>
             (<strong>${x1}, ${y1}</strong>)<br>
+            <strong>נקודה 2:</strong><br>
             (<strong>${x2}, ${y2}</strong>)`;
             
             document.getElementById("feedback").innerText = "";
