@@ -59,9 +59,9 @@
             let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
             correctAnswer = `y=${mStr}${bStr}`;
             
-            let formatNumber = (num) => num < 0 ? `(${num})` : num;
+            let formatNumber = (num) => num < 0 ? `- ${Math.abs(num)}` : num;
             
-            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות \(( ${formatNumber(x1)}, ${formatNumber(y1)} )\) ו-\(( ${formatNumber(x2)}, ${formatNumber(y2)} )\)`;
+            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות (${formatNumber(x1)}, ${formatNumber(y1)}) ו-(${formatNumber(x2)}, ${formatNumber(y2)})`;
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
