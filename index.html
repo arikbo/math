@@ -29,6 +29,7 @@
             margin-top: 10px;
         }
         .correct { color: green; font-weight: bold; }
+        .incorrect { color: red; font-weight: bold; }
         .footer { margin-top: 20px; font-size: 14px; color: black; }
     </style>
 </head>
@@ -40,6 +41,7 @@
         <input type="text" id="answer">
         <button onclick="checkAnswer()">בדוק</button>
         <p id="feedback"></p>
+        <p id="solution"></p>
         <button onclick="generateQuestion()">תרגיל חדש</button>
     </div>
     <p class="footer">האתר נבנה על ידי אריק בוריסי ©️</p>
@@ -69,6 +71,7 @@
             (<strong>${x2}, ${y2}</strong>)`;
             
             document.getElementById("feedback").innerText = "";
+            document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
         }
 
@@ -79,6 +82,10 @@
             if (userAnswer === correctFormatted) {
                 document.getElementById("feedback").innerHTML = "\u2714 תשובה נכונה!";
                 document.getElementById("feedback").className = "correct";
+            } else {
+                document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
+                document.getElementById("feedback").className = "incorrect";
+                document.getElementById("solution").innerText = `התשובה הנכונה היא: ${correctAnswer}`;
             }
         }
 
