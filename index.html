@@ -64,9 +64,12 @@
             let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
             correctAnswer = `y=${mStr}${bStr}`;
             
-            let formatNumber = (num) => num < 0 ? `- ${Math.abs(num)}` : num;
+            let formatNumber = (num) => num < 0 ? `-${Math.abs(num)}` : num;
             
-            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות <br>(<strong>x=${formatNumber(x1)}</strong>, <strong>y=${formatNumber(y1)}</strong>) ו-(<strong>x=${formatNumber(x2)}</strong>, <strong>y=${formatNumber(y2)}</strong>)`;
+            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות:<br>
+            (<strong>x=${formatNumber(x1)}</strong>, <strong>y=${formatNumber(y1)}</strong>)<br>
+            (<strong>x=${formatNumber(x2)}</strong>, <strong>y=${formatNumber(y2)}</strong>)`;
+            
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
