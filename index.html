@@ -1,97 +1,59 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>תרגול פונקציה קווית</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: right;
-            background: linear-gradient(to right, #74ebd5, #acb6e5);
-            padding: 20px;
-            direction: rtl;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            text-align: right;
-        }
-        input {
-            padding: 5px;
-            font-size: 16px;
-            text-align: right;
-            width: 90%;
-            display: block;
-            margin-top: 10px;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; direction: rtl; }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
-        .solution { font-size: 14px; color: gray; }
-        .footer { margin-top: 20px; font-size: 14px; color: black; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>תרגול פונקציה קווית</h1>
-        <p id="question"></p>
-        <p>הזן את הפונקציה בפורמט <strong>y=mx+b</strong></p>
-        <input type="text" id="answer">
-        <button onclick="checkAnswer()">בדוק</button>
-        <p id="feedback"></p>
-        <p id="solution" class="solution"></p>
-        <button onclick="generateQuestion()">תרגיל חדש</button>
-    </div>
-    <p class="footer">האתר נבנה על ידי אריק בוריסי ©️</p>
-    <script>
-        let correctAnswer = "";
+    <h1>תרגול פונקציה קווית</h1>
+    <p id="question"></p>
+    <input type="text" id="answer" placeholder="הזן את הפונקציה בפורמט y=mx+b">
+    <button onclick="checkAnswer()">בדוק</button>
+    <p id="result"></p>
+    <button onclick="generateExercise()">תרגיל חדש</button>
 
-        function generateQuestion() {
-            let x1, y1, x2, y2, m, b;
-            do {
-                x1 = Math.floor(Math.random() * 10) - 5;
-                y1 = Math.floor(Math.random() * 10) - 5;
-                x2 = Math.floor(Math.random() * 10) - 5;
-                y2 = Math.floor(Math.random() * 10) - 5;
-            } while (x1 === x2 || (y2 - y1) % (x2 - x1) !== 0); // הימנעות מחלוקה באפס ומשברים
+    <script>
+        let correctEquation = "";
+
+        function generateExercise() {
+            let type = Math.random() < 0.5 ? "slopePoint" : "parallel";
+            let x1 = Math.floor(Math.random() * 10) - 5;
+            let y1 = Math.floor(Math.random() * 10) - 5;
+            let slope = Math.floor(Math.random() * 9) - 4;
+            if (slope === 0) slope = 1;
+            let b;
             
-            m = (y2 - y1) / (x2 - x1);
-            b = y1 - m * x1;
-            
-            let mStr = m === 1 ? "x" : m === -1 ? "-x" : `${m}x`;
-            let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
-            correctAnswer = `y=${mStr}${bStr}`;
-            
-            let formatNumber = (num) => num < 0 ? `-${Math.abs(num)}` : num;
-            
-            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות:<br>
-            נקודה 1:<br> (${formatNumber(y1)}, ${formatNumber(x1)})<br>
-            נקודה 2:<br> (${formatNumber(y2)}, ${formatNumber(x2)})`;
-            
-            document.getElementById("feedback").innerText = "";
-            document.getElementById("solution").innerText = "";
-            document.getElementById("answer").value = "";
+            if (type === "slopePoint") {
+                b = y1 - slope * x1;
+                correctEquation = `y=${slope}x+${b}`;
+                document.getElementById("question").innerHTML = `מצא את הפונקציה העוברת דרך הנקודה (${x1}, ${y1}) עם שיפוע ${slope}`;
+            } else {
+                let randomB = Math.floor(Math.random() * 10) - 5;
+                b = y1 - slope * x1;
+                correctEquation = `y=${slope}x+${b}`;
+                document.getElementById("question").innerHTML = `מצא את הפונקציה המקבילה לפונקציה y=${slope}x+${randomB} ועוברת דרך הנקודה (${x1}, ${y1})`;
+            }
+            document.getElementById("result").innerHTML = "";
         }
 
         function checkAnswer() {
-            let userAnswer = document.getElementById("answer").value.replace(/\s+/g, '').toLowerCase();
-            let correctFormatted = correctAnswer.replace(/\s+/g, '').toLowerCase();
-            
-            if (userAnswer === correctFormatted) {
-                document.getElementById("feedback").innerHTML = "✔ תשובה נכונה!";
-                document.getElementById("feedback").className = "correct";
-                document.getElementById("solution").innerText = "";
+            let userAnswer = document.getElementById("answer").value.replace(/\s+/g, "");
+            if (userAnswer === correctEquation) {
+                document.getElementById("result").innerHTML = "✔ תשובה נכונה";
+                document.getElementById("result").className = "correct";
             } else {
-                document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
-                document.getElementById("feedback").className = "incorrect";
-                document.getElementById("solution").innerText = `התשובה הנכונה היא: ${correctAnswer}`;
+                document.getElementById("result").innerHTML = `❌ תשובה שגויה. התשובה הנכונה היא: ${correctEquation}`;
+                document.getElementById("result").className = "incorrect";
             }
         }
 
-        generateQuestion();
+        generateExercise();
     </script>
 </body>
 </html>
