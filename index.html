@@ -20,11 +20,6 @@
             display: inline-block;
             text-align: right;
         }
-        .points {
-            direction: ltr;
-            text-align: left;
-            font-weight: bold;
-        }
         input {
             padding: 5px;
             font-size: 16px;
@@ -35,19 +30,19 @@
         }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
+        .solution { font-size: 14px; color: gray; }
         .footer { margin-top: 20px; font-size: 14px; color: black; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>תרגול פונקציה קווית</h1>
-        <p>מצא את הפונקציה עבור הנקודות:</p>
-        <p id="question" class="points"></p>
+        <p id="question"></p>
         <p>הזן את הפונקציה בפורמט <strong>y=mx+b</strong></p>
         <input type="text" id="answer">
         <button onclick="checkAnswer()">בדוק</button>
         <p id="feedback"></p>
-        <p id="solution"></p>
+        <p id="solution" class="solution"></p>
         <button onclick="generateQuestion()">תרגיל חדש</button>
     </div>
     <p class="footer">האתר נבנה על ידי אריק בוריסי ©️</p>
@@ -61,7 +56,7 @@
                 y1 = Math.floor(Math.random() * 10) - 5;
                 x2 = Math.floor(Math.random() * 10) - 5;
                 y2 = Math.floor(Math.random() * 10) - 5;
-            } while (x1 === x2 || (y2 - y1) % (x2 - x1) !== 0);
+            } while (x1 === x2 || (y2 - y1) % (x2 - x1) !== 0 || (y2 - y1) / (x2 - x1) === 0);
             
             m = (y2 - y1) / (x2 - x1);
             b = y1 - m * x1;
@@ -70,12 +65,9 @@
             let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
             correctAnswer = `y=${mStr}${bStr}`;
             
-            let formatNumber = (num) => (num < 0 ? `(${num})` : num);
-            
-            document.getElementById("question").innerHTML = `נקודה 1:<br>
-            (${formatNumber(x1)}, ${formatNumber(y1)})<br>
-            נקודה 2:<br>
-            (${formatNumber(x2)}, ${formatNumber(y2)})`;
+            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות:<br>
+            נקודה 1:<br>(${x1}, ${y1})<br>
+            נקודה 2:<br>(${x2}, ${y2})`;
             
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
@@ -87,11 +79,10 @@
             let correctFormatted = correctAnswer.replace(/\s+/g, '').toLowerCase();
             
             if (userAnswer === correctFormatted) {
-                document.getElementById("feedback").innerHTML = "✔ תשובה נכונה!";
-                document.getElementById("feedback").className = "correct";
+                document.getElementById("feedback").innerHTML = "<span class='correct'>&#10004; תשובה נכונה!</span>";
+                document.getElementById("solution").innerText = "";
             } else {
-                document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
-                document.getElementById("feedback").className = "incorrect";
+                document.getElementById("feedback").innerHTML = "<span class='incorrect'>&#10008; תשובה שגויה</span>";
                 document.getElementById("solution").innerText = `התשובה הנכונה היא: ${correctAnswer}`;
             }
         }
