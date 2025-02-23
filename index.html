@@ -25,6 +25,8 @@
         }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
+        .solution { font-size: 14px; color: gray; }
+        .footer { margin-top: 20px; font-size: 14px; color: black; }
     </style>
 </head>
 <body>
@@ -33,9 +35,10 @@
         <p id="question"></p>
         <input type="text" id="answer" placeholder="הזן את הפונקציה בפורמט y=mx+b">
         <p id="feedback"></p>
+        <p id="solution" class="solution"></p>
         <button onclick="generateQuestion()">תרגיל חדש</button>
     </div>
-
+    <p class="footer">האתר נבנה על ידי אריק בוריסי ©️</p>
     <script>
         let correctAnswer = "";
 
@@ -45,25 +48,33 @@
             let x2 = Math.floor(Math.random() * 10) - 5;
             let y2 = Math.floor(Math.random() * 10) - 5;
             
-            if (x1 === x2) x2 += 1;
+            while (x1 === x2) x2 += 1;
             
             let m = (y2 - y1) / (x2 - x1);
             let b = y1 - m * x1;
-            correctAnswer = `y=${m}x${b >= 0 ? '+' + b : b}`;
+            
+            let mStr = m === 1 ? "x" : m === -1 ? "-x" : `${m}x`;
+            let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
+            correctAnswer = `y=${mStr}${bStr}`;
             
             document.getElementById("question").innerText = `מצא את הפונקציה עבור הנקודות (${x1}, ${y1}) ו-(${x2}, ${y2})`;
             document.getElementById("feedback").innerText = "";
+            document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
         }
 
         document.getElementById("answer").addEventListener("input", function() {
-            let userAnswer = this.value.replace(/\s+/g, '');
-            if (userAnswer === correctAnswer) {
+            let userAnswer = this.value.replace(/\s+/g, '').toLowerCase();
+            let correctFormatted = correctAnswer.replace(/\s+/g, '').toLowerCase();
+            
+            if (userAnswer === correctFormatted) {
                 document.getElementById("feedback").innerHTML = "\u2714 תשובה נכונה!";
                 document.getElementById("feedback").className = "correct";
+                document.getElementById("solution").innerText = "";
             } else {
                 document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
                 document.getElementById("feedback").className = "incorrect";
+                document.getElementById("solution").innerText = `התשובה הנכונה היא: ${correctAnswer}`;
             }
         });
 
