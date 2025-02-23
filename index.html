@@ -1,104 +1,73 @@
 <!DOCTYPE html>
-<html lang="he" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>תרגול מספרים מכוונים</title>
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-            },
-            svg: {
-                fontCache: 'global'
-            }
-        };
-    </script>
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <title>תרגול פונקציה קווית</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; direction: ltr; }
-        .exercise {
-            font-size: 24px; 
-            margin: 10px auto; 
-            padding: 10px; 
-            background: #f0f8ff; 
-            border-radius: 10px; 
-            width: 90%; 
-            text-align: left; 
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            padding: 20px;
         }
-        input { font-size: 20px; width: 80px; text-align: center; margin-left: 10px; }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        input {
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
-        .result { font-size: 20px; margin-top: 20px; }
-        .new-try { font-size: 18px; padding: 10px; margin-top: 20px; cursor: pointer; background: blue; color: white; border: none; border-radius: 5px; }
-        footer { margin-top: 20px; font-size: 14px; color: gray; }
     </style>
 </head>
 <body>
-    <h1 style="color: blue;">תרגול מספרים מכוונים</h1>
-    <div id="exercises"></div>
-    <button class="new-try" onclick="generateExercises()">ניסיון חדש</button>
-    <div id="score" class="result"></div>
-    <footer>האתר נבנה על ידי אריק בוריסי ©️</footer>
+    <div class="container">
+        <h1>תרגול פונקציה קווית</h1>
+        <p id="question"></p>
+        <input type="text" id="answer" placeholder="הזן את הפונקציה בפורמט y=mx+b">
+        <p id="feedback"></p>
+        <button onclick="generateQuestion()">תרגיל חדש</button>
+    </div>
 
     <script>
-        function generateExercises() {
-            const operators = ['+', '-', '*', '/'];
-            const exercisesDiv = document.getElementById('exercises');
-            exercisesDiv.innerHTML = '';
-            window.correctAnswers = 0;
-            window.totalQuestions = 10;
+        let correctAnswer = "";
+
+        function generateQuestion() {
+            let x1 = Math.floor(Math.random() * 10) - 5;
+            let y1 = Math.floor(Math.random() * 10) - 5;
+            let x2 = Math.floor(Math.random() * 10) - 5;
+            let y2 = Math.floor(Math.random() * 10) - 5;
             
-            for (let i = 0; i < 10; i++) {
-                let num1 = Math.floor(Math.random() * 21) - 10;
-                let num2 = Math.floor(Math.random() * 21) - 10;
-                let op = operators[Math.floor(Math.random() * operators.length)];
-                
-                if (op === '/' && num2 === 0) num2 = 1; 
-                
-                let expression = `${num1} ${op} ${num2}`;
-                let solution = eval(expression);
-                
-                let div = document.createElement('div');
-                div.className = 'exercise';
-                div.innerHTML = `
-                    <span class="math">\$${num1} ${op} ${num2} =\$\</span>
-                    <input type="text" oninput="checkAnswer(this, ${solution})">
-                    <span class="feedback"></span>
-                `;
-                exercisesDiv.appendChild(div);
-            }
-
-            // וודא ש-MathJax טוען מחדש את הביטויים
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
+            if (x1 === x2) x2 += 1;
+            
+            let m = (y2 - y1) / (x2 - x1);
+            let b = y1 - m * x1;
+            correctAnswer = `y=${m}x${b >= 0 ? '+' + b : b}`;
+            
+            document.getElementById("question").innerText = `מצא את הפונקציה עבור הנקודות (${x1}, ${y1}) ו-(${x2}, ${y2})`;
+            document.getElementById("feedback").innerText = "";
+            document.getElementById("answer").value = "";
         }
 
-        function checkAnswer(input, correctAnswer) {
-            let feedback = input.nextElementSibling;
-            if (input.value.trim() !== "") {
-                if (parseFloat(input.value) === correctAnswer) {
-                    feedback.innerHTML = '✔';
-                    feedback.className = 'correct';
-                    window.correctAnswers++;
-                } else {
-                    feedback.innerHTML = '✖';
-                    feedback.className = 'incorrect';
-                }
-                updateScore();
+        document.getElementById("answer").addEventListener("input", function() {
+            let userAnswer = this.value.replace(/\s+/g, '');
+            if (userAnswer === correctAnswer) {
+                document.getElementById("feedback").innerHTML = "\u2714 תשובה נכונה!";
+                document.getElementById("feedback").className = "correct";
             } else {
-                feedback.innerHTML = '';
+                document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
+                document.getElementById("feedback").className = "incorrect";
             }
-        }
-        
-        function updateScore() {
-            let scoreDiv = document.getElementById('score');
-            let percentage = (window.correctAnswers / window.totalQuestions) * 100;
-            scoreDiv.innerHTML = `נכונות: ${window.correctAnswers} מתוך ${window.totalQuestions} (ציון: ${percentage.toFixed(1)}%)`;
-        }
-        
-        window.onload = generateExercises;
+        });
+
+        generateQuestion();
     </script>
 </body>
 </html>
