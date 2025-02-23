@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: left;
+            text-align: right;
             background: linear-gradient(to right, #74ebd5, #acb6e5);
             padding: 20px;
-            direction: ltr;
+            direction: rtl;
         }
         .container {
             background: white;
@@ -18,12 +18,17 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: inline-block;
+            text-align: right;
+        }
+        .points {
+            direction: ltr;
             text-align: left;
+            font-weight: bold;
         }
         input {
             padding: 5px;
             font-size: 16px;
-            text-align: left;
+            text-align: right;
             width: 90%;
             display: block;
             margin-top: 10px;
@@ -36,7 +41,8 @@
 <body>
     <div class="container">
         <h1>תרגול פונקציה קווית</h1>
-        <p id="question"></p>
+        <p>מצא את הפונקציה עבור הנקודות:</p>
+        <p id="question" class="points"></p>
         <p>הזן את הפונקציה בפורמט <strong>y=mx+b</strong></p>
         <input type="text" id="answer">
         <button onclick="checkAnswer()">בדוק</button>
@@ -66,11 +72,10 @@
             
             let formatNumber = (num) => (num < 0 ? `(${num})` : num);
             
-            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות:<br>
-            <strong>נקודה 1:</strong><br>
-            (<strong>${formatNumber(x1)}, ${formatNumber(y1)}</strong>)<br>
-            <strong>נקודה 2:</strong><br>
-            (<strong>${formatNumber(x2)}, ${formatNumber(y2)}</strong>)`;
+            document.getElementById("question").innerHTML = `נקודה 1:<br>
+            (${formatNumber(x1)}, ${formatNumber(y1)})<br>
+            נקודה 2:<br>
+            (${formatNumber(x2)}, ${formatNumber(y2)})`;
             
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
