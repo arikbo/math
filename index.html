@@ -29,8 +29,6 @@
             margin-top: 10px;
         }
         .correct { color: green; font-weight: bold; }
-        .incorrect { color: red; font-weight: bold; }
-        .solution { font-size: 14px; color: gray; }
         .footer { margin-top: 20px; font-size: 14px; color: black; }
     </style>
 </head>
@@ -41,7 +39,7 @@
         <p>הזן את הפונקציה בפורמט <strong>y=mx+b</strong></p>
         <input type="text" id="answer">
         <p id="feedback"></p>
-        <p id="solution" class="solution"></p>
+        <button onclick="checkAnswer()">בדוק</button>
         <button onclick="generateQuestion()">תרגיל חדש</button>
     </div>
     <p class="footer">האתר נבנה על ידי אריק בוריסי ©️</p>
@@ -55,7 +53,7 @@
                 y1 = Math.floor(Math.random() * 10) - 5;
                 x2 = Math.floor(Math.random() * 10) - 5;
                 y2 = Math.floor(Math.random() * 10) - 5;
-            } while (x1 === x2 || (y2 - y1) % (x2 - x1) !== 0); // הימנעות מחלוקה באפס ומשברים
+            } while (x1 === x2 || (y2 - y1) % (x2 - x1) !== 0);
             
             m = (y2 - y1) / (x2 - x1);
             b = y1 - m * x1;
@@ -64,31 +62,23 @@
             let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
             correctAnswer = `y=${mStr}${bStr}`;
             
-            let formatNumber = (num) => num < 0 ? `-${Math.abs(num)}` : num;
-            
             document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות:<br>
-            (<strong>x=${formatNumber(x1)}</strong>, <strong>y=${formatNumber(y1)}</strong>)<br>
-            (<strong>x=${formatNumber(x2)}</strong>, <strong>y=${formatNumber(y2)}</strong>)`;
+            (<strong>${x1}, ${y1}</strong>)<br>
+            (<strong>${x2}, ${y2}</strong>)`;
             
             document.getElementById("feedback").innerText = "";
-            document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
         }
 
-        document.getElementById("answer").addEventListener("input", function() {
-            let userAnswer = this.value.replace(/\s+/g, '').toLowerCase();
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value.replace(/\s+/g, '').toLowerCase();
             let correctFormatted = correctAnswer.replace(/\s+/g, '').toLowerCase();
             
             if (userAnswer === correctFormatted) {
                 document.getElementById("feedback").innerHTML = "\u2714 תשובה נכונה!";
                 document.getElementById("feedback").className = "correct";
-                document.getElementById("solution").innerText = "";
-            } else if (userAnswer.length >= correctFormatted.length) {
-                document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
-                document.getElementById("feedback").className = "incorrect";
-                document.getElementById("solution").innerText = `התשובה הנכונה היא: ${correctAnswer}`;
             }
-        });
+        }
 
         generateQuestion();
     </script>
