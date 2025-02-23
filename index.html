@@ -7,9 +7,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
+            text-align: right;
             background: linear-gradient(to right, #74ebd5, #acb6e5);
             padding: 20px;
+            direction: rtl;
         }
         .container {
             background: white;
@@ -17,12 +18,15 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: inline-block;
+            text-align: right;
         }
         input {
             padding: 5px;
             font-size: 16px;
-            text-align: center;
+            text-align: right;
             width: 90%;
+            display: block;
+            margin-top: 10px;
         }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
@@ -34,7 +38,8 @@
     <div class="container">
         <h1>תרגול פונקציה קווית</h1>
         <p id="question"></p>
-        <input type="text" id="answer" placeholder="הזן את הפונקציה בפורמט y=mx+b">
+        <p>הזן את הפונקציה בפורמט <strong>y=mx+b</strong></p>
+        <input type="text" id="answer">
         <p id="feedback"></p>
         <p id="solution" class="solution"></p>
         <button onclick="generateQuestion()">תרגיל חדש</button>
@@ -61,7 +66,7 @@
             
             let formatNumber = (num) => num < 0 ? `- ${Math.abs(num)}` : num;
             
-            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות (${formatNumber(x1)}, ${formatNumber(y1)}) ו-(${formatNumber(x2)}, ${formatNumber(y2)})`;
+            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות <br>(<strong>x=${formatNumber(x1)}</strong>, <strong>y=${formatNumber(y1)}</strong>) ו-(<strong>x=${formatNumber(x2)}</strong>, <strong>y=${formatNumber(y2)}</strong>)`;
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
@@ -75,7 +80,7 @@
                 document.getElementById("feedback").innerHTML = "\u2714 תשובה נכונה!";
                 document.getElementById("feedback").className = "correct";
                 document.getElementById("solution").innerText = "";
-            } else {
+            } else if (userAnswer.length >= correctFormatted.length) {
                 document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
                 document.getElementById("feedback").className = "incorrect";
                 document.getElementById("solution").innerText = `התשובה הנכונה היא: ${correctAnswer}`;
