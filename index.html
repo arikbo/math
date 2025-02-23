@@ -22,6 +22,7 @@
             padding: 5px;
             font-size: 16px;
             text-align: center;
+            width: 90%;
         }
         .correct { color: green; font-weight: bold; }
         .incorrect { color: red; font-weight: bold; }
@@ -58,7 +59,9 @@
             let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
             correctAnswer = `y=${mStr}${bStr}`;
             
-            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות \(( ${x1}, ${y1} )\) ו-\(( ${x2}, ${y2} )\)`;
+            let formatNumber = (num) => num < 0 ? `(${num})` : num;
+            
+            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות \(( ${formatNumber(x1)}, ${formatNumber(y1)} )\) ו-\(( ${formatNumber(x2)}, ${formatNumber(y2)} )\)`;
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
             document.getElementById("answer").value = "";
