@@ -80,7 +80,7 @@
             let correctFormatted = correctAnswer.replace(/\s+/g, '').toLowerCase();
             
             if (userAnswer === correctFormatted) {
-                document.getElementById("feedback").innerHTML = "\u2714 תשובה נכונה!";
+                document.getElementById("feedback").innerHTML = "✔ תשובה נכונה!";
                 document.getElementById("feedback").className = "correct";
             } else {
                 document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
