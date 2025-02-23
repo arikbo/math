@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Function Practice</title>
+    <title>תרגול פונקציה קווית</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: left;
+            text-align: right;
             background: linear-gradient(to right, #74ebd5, #acb6e5);
             padding: 20px;
-            direction: ltr;
+            direction: rtl;
         }
         .container {
             background: white;
@@ -18,12 +18,12 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: inline-block;
-            text-align: left;
+            text-align: right;
         }
         input {
             padding: 5px;
             font-size: 16px;
-            text-align: left;
+            text-align: right;
             width: 90%;
             display: block;
             margin-top: 10px;
@@ -35,16 +35,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Linear Function Practice</h1>
+        <h1>תרגול פונקציה קווית</h1>
         <p id="question"></p>
-        <p>Enter the function in the format <strong>y=mx+b</strong></p>
+        <p>הזן את הפונקציה בפורמט <strong>y=mx+b</strong></p>
         <input type="text" id="answer">
-        <button onclick="checkAnswer()">Check</button>
+        <button onclick="checkAnswer()">בדוק</button>
         <p id="feedback"></p>
         <p id="solution"></p>
-        <button onclick="generateQuestion()">New Exercise</button>
+        <button onclick="generateQuestion()">תרגיל חדש</button>
     </div>
-    <p class="footer">Website created by Arik Borisi ©️</p>
+    <p class="footer">האתר נבנה על ידי אריק בוריסי ©️</p>
     <script>
         let correctAnswer = "";
 
@@ -64,11 +64,13 @@
             let bStr = b === 0 ? "" : (b > 0 ? `+${b}` : `${b}`);
             correctAnswer = `y=${mStr}${bStr}`;
             
-            document.getElementById("question").innerHTML = `Find the function for the points:<br>
-            <strong>Point 1:</strong><br>
-            (<strong>${x1}, ${y1}</strong>)<br>
-            <strong>Point 2:</strong><br>
-            (<strong>${x2}, ${y2}</strong>)`;
+            let formatNumber = (num) => (num < 0 ? `(${num})` : num);
+            
+            document.getElementById("question").innerHTML = `מצא את הפונקציה עבור הנקודות:<br>
+            <strong>נקודה 1:</strong><br>
+            (<strong>${formatNumber(x1)}, ${formatNumber(y1)}</strong>)<br>
+            <strong>נקודה 2:</strong><br>
+            (<strong>${formatNumber(x2)}, ${formatNumber(y2)}</strong>)`;
             
             document.getElementById("feedback").innerText = "";
             document.getElementById("solution").innerText = "";
@@ -80,12 +82,12 @@
             let correctFormatted = correctAnswer.replace(/\s+/g, '').toLowerCase();
             
             if (userAnswer === correctFormatted) {
-                document.getElementById("feedback").innerHTML = "✔ Correct answer!";
+                document.getElementById("feedback").innerHTML = "✔ תשובה נכונה!";
                 document.getElementById("feedback").className = "correct";
             } else {
-                document.getElementById("feedback").innerHTML = "✖ Incorrect answer";
+                document.getElementById("feedback").innerHTML = "✖ תשובה שגויה";
                 document.getElementById("feedback").className = "incorrect";
-                document.getElementById("solution").innerText = `The correct answer is: ${correctAnswer}`;
+                document.getElementById("solution").innerText = `התשובה הנכונה היא: ${correctAnswer}`;
             }
         }
 
